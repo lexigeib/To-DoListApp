@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline'; style-src 'self' 'unsafe-inline'; media-src *" />
+    <script type="text/javascript" src="js/index.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/index.css" />
+      <script type="text/javascript" src="cordova.js"></script>
+    
+    <title>TODO</title>
+</head>
+<body>
+    <br>
+    <div id="nav" class="sidenav">
+        <a href="javascript:void(0)" class="closebtn"
+            onclick="closeNav()">&times;</a>
+        <select id='colorChange' onchange="colorSelected();">
+            <option value='Low' selected>Pick Priority Colors</option>
+            <option value='Low'>Low</option>
+            <option value='Med'>Med</option> 
+            <option value='High'>High</option>
+        </select>
+        <input id="color" type="color">
+    </div>
+    <h1><span style="padding: 20px; margin-left: -40px; font-size:20px;cursor:pointer" onclick="openNav()">&#9776;</span>My Tasks</h1>
+    <br>
+
+    <table class="tg" style="width:100%">
+        <tr>
+            <th class="tg-vlyc">
+                <div style="transform: rotate(-15deg); margin-top: 8px;">
+                    Complete?
+                </div>
+            </th>
+            <th class="tg-0pky">
+                <div style="transform: rotate(-15deg); margin-top: 8px;">
+                    Task
+                </div>
+            </th>
+            <th class="tg-0pky"><img height="30px" width="30px" src="img/calendar.png"><br></th>
+            <th class="tg-0lax">
+                <div style="transform: rotate(-15deg); margin-top: 8px;">
+                    Priority
+                </div>
+            </th>
+            <th class="tg-0lax">
+                <div style="transform: rotate(-15deg); margin-top: 8px;">
+                    Category
+                </div>
+            </th>
+        </tr>
+    </table>
+
+    <div id=container><table id="table-container" class="tg"></table></div>
+    <div id="content">
+        <input type="text" id="task"/>
+        <input type="date" id="date"/>
+        <select id='priority'>
+            <option value='Low' selected>Low</option>
+            <option value='Med'>Med</option> 
+            <option value='High'>High</option>
+        </select>
+        <select id='category'>
+            <option value='Work' selected>Work</option>
+            <option value='Personal'>Personal</option>
+        </select>
+        <button onclick="appendTable()" id="buttonimg"><img style="height: 30px;width: 30px; margin-bottom: -10px"src="img/angle-right@1x.png"></button>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,229 @@
+* {
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    font-family: Comic Sans MS;
+}
+
+body {
+    -webkit-touch-callout: none;                
+    -webkit-text-size-adjust: none;
+    -webkit-user-select: none;
+    background-color:#E4E4E4;
+    background-image:linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
+    background-image:-webkit-linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
+    background-image:-ms-linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
+    background-image:-webkit-gradient(
+        linear,
+        left top,
+        left bottom,
+        color-stop(0, #A7A7A7),
+        color-stop(0.51, #E4E4E4)
+    );
+    background-attachment:fixed;
+    font-family:'HelveticaNeue-Light', 'HelveticaNeue', Helvetica, Arial, sans-serif;
+    font-size:12px;
+    height:100%;
+    margin:0px;
+    padding:0px;
+    text-transform:uppercase;
+    width:100%;
+}
+
+.app {
+    background:url(../img/logo.png) no-repeat center top; /* 170px x 200px */
+    position:absolute;             /* position in the center of the screen */
+    left:50%;
+    top:50%;
+    height:50px;                   /* text area height */
+    width:225px;                   /* text area width */
+    text-align:center;
+    padding:180px 0px 0px 0px;     /* image height is 200px (bottom 20px are overlapped with text) */
+    margin:-115px 0px 0px -112px;  /* offset vertical: half of image height and text area height */
+                                   /* offset horizontal: half of text area width */
+}
+
+/* Landscape layout (with min-width) */
+@media screen and (min-aspect-ratio: 1/1) and (min-width:400px) {
+    .app {
+        background-position:left center;
+        padding:75px 0px 75px 170px;  /* padding-top + padding-bottom + text area = image height */
+        margin:-90px 0px 0px -198px;  /* offset vertical: half of image height */
+                                      /* offset horizontal: half of image width and text area width */
+    }
+}
+
+h1 {
+    color: white;
+    font-family: Comic Sans MS;
+    letter-spacing: 2px;
+    font-size:24px;
+    font-weight:normal;
+    margin:0px;
+    overflow:visible;
+    padding:0px;
+    text-align:center;
+}
+
+.event {
+    border-radius:10px;
+    -webkit-border-radius:10px;
+    color:#FFFFFF;
+    font-size:12px;
+    margin:0px 30px;
+    padding:2px 0px;
+}
+
+.event.listening {
+    background-color:#333333;
+    display:block;
+}
+
+.event.received {
+    background-color: blue;
+    display:none;
+}
+
+@keyframes fade {
+    from { opacity: 1.0; }
+    50% { opacity: 0.4; }
+    to { opacity: 1.0; }
+}
+ 
+@-webkit-keyframes fade {
+    from { opacity: 1.0; }
+    50% { opacity: 0.4; }
+    to { opacity: 1.0; }
+}
+#delete{
+    height: 10px;
+    width: 10px;
+} 
+.blink {
+    animation:fade 3000ms infinite;
+    -webkit-animation:fade 3000ms infinite;
+}
+.name, .dates{
+    width: 35%;
+}
+#task{
+    width: 18%;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: vertical;
+}
+#priority{
+    width: 15%;
+    border-radius: 4px;
+}
+#date{
+    width: 32%;
+    border-radius: 4px;
+}
+#category{
+    width: auto;
+    border-radius: 4px;
+}
+#content{
+    padding: 5px;
+    background-color: grey;
+    position: fixed;
+    bottom: 0px;
+    width: 100%;
+    overflow:auto;
+    white-space:nowrap;
+}
+#buttonimg{padding: 0;
+border: none;
+background: none; margin-left: -5px;}
+tr{width:100%;}
+.tg  {
+    border-collapse:collapse;
+    border-spacing:0;
+    border-color:#93a1a1;
+}
+.tg td{
+    border-radius: 5px;
+    font-family:Arial, sans-serif;
+    font-size:14px;
+    padding:10px 5px;
+    border-style:solid;
+    border-width:0px;
+    overflow:hidden;
+    word-break:normal;
+    border-color:#93a1a1;
+    color:white;
+}
+#rotate{
+    transform: rotate(25deg);
+}
+.tg th{
+    filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+    font-family:Comic Sans MS;
+    font-size:14px;
+    font-weight:normal;
+    padding:10px 7px;
+    border-style:solid;
+    border-width:0px;
+    overflow:hidden;
+    word-break:normal;
+    border-color:#93a1a1;
+    color:#fdf6e3;
+    background-color:black;
+}
+.tg .tg-vlyc{
+    font-size:12px;
+    font-family: Comic Sans MS, !important;
+    border-color:inherit;
+    text-align:left;
+    vertical-align:top
+}
+.tg .tg-0pky{
+    border-color:inherit;
+    text-align:left;
+    vertical-align:top
+}
+.tg .tg-0lax{
+    text-align:left;
+    vertical-align:top
+}
+body {
+    background-image: url(../img/notebook-lined-paper-texture_89245-174.jpg);
+}
+.sidenav {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: #111;
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 60px;
+}
+
+.sidenav a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
+}
+
+.sidenav a:hover {
+  color: #f1f1f1;
+}
+.sidenav select{
+    margin-left: 10px;
+}
+.sidenav .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+}
+#blurry {
+    text-shadow: 2px 2px 8px "black";
+    text-align: center;
+}

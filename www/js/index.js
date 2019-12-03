@@ -14,11 +14,12 @@ function onDeviceReady(){
     var type = LocalFileSystem.PERSISTENT;  
     window.requestFileSystem(type, size, fileSuccess, errorCall);
         function fileSuccess(fs){
-            fs.root.getFile('table_4.txt', {create: true, exclusive: false}, function(fileEntry){
+            fs.root.getFile('table_7.txt', {create: true, exclusive: false}, function(fileEntry){
             if (!fileEntry.isFile)
                 writeFile(fileEntry, null);
             }, errorCall);
         }
+    categoryPaste();
     tablePaste();
     checkDate();
 }
@@ -56,12 +57,13 @@ function appendTable() {
             updateTable();">
         </td>
         </tr>`);
+    checkDate();
     
     var size = 0;
     
     window.requestFileSystem(LocalFileSystem.PERSISTENT, size, successCall, errorCall);
     function successCall(fs){
-        fs.root.getFile('table_4.txt',{create:true, exclusive: false}, function(fileEntry){
+        fs.root.getFile('table_7.txt',{create:true, exclusive: false}, function(fileEntry){
             fileEntry.createWriter(function(fileWriter){
                 fileWriter.onerror = function(e){
                     alert("write failed: "+ e.toString());
@@ -74,13 +76,48 @@ function appendTable() {
     document.getElementById('date').value="";    
     };
 }
+function addCategory(x) {
+    var select = document.getElementById("category");
+    select.options[select.options.length] = new Option( "" + x, '0', false, false);
 
+    var size = 0;
+    window.requestFileSystem(LocalFileSystem.PERSISTENT, size, successCall, errorCall);
+    function successCall(fs){
+        fs.root.getFile('category.txt',{create:true, exclusive: false}, function(fileEntry){
+            fileEntry.createWriter(function(fileWriter){
+                fileWriter.onerror = function(e){
+                    alert("write failed: "+ e.toString());
+                };
+                var output = document.getElementById('category').innerHTML;
+                fileWriter.write(output);
+            }, errorCall);    
+        }, errorCall);  
+    };
+}
+function categoryPaste() {
+    
+    var size = 0;    
+    window.requestFileSystem(LocalFileSystem.PERSISTENT, size, successCall, errorCall);
+    
+    function successCall(fs){
+        fs.root.getFile('category.txt',{create: true, exclusive: false},function(fileEntry){
+        fileEntry.file(function(file){
+            var reader = new FileReader();
+            reader.onloadend = function(e){  
+                var category = document.getElementById('category');
+                category.insertAdjacentHTML('beforeend', this.result);
+            };
+            reader.readAsText(file);
+            }, errorCall);    
+        }, errorCall);
+    };
+} 
 function updateTable(){
     var size = 0;
     
     window.requestFileSystem(LocalFileSystem.PERSISTENT, size, successCall, errorCall);
     function successCall(fs){
-        fs.root.getFile('table_4.txt',{create:true, exclusive: false}, function(fileEntry){
+        fs.root.getFile('table_7.txt',{create:true, exclusive: false}, function(fileEntry){
             fileEntry.createWriter(function(fileWriter){
                 fileWriter.onerror = function(e){
                     alert("write failed: "+ e.toString());
@@ -97,7 +134,7 @@ function tablePaste() {
     window.requestFileSystem(LocalFileSystem.PERSISTENT, size, successCall, errorCall);
     
     function successCall(fs){
-        fs.root.getFile('table_4.txt',{create: true, exclusive: false},function(fileEntry){
+        fs.root.getFile('table_7.txt',{create: true, exclusive: false},function(fileEntry){
         fileEntry.file(function(file){
             var reader = new FileReader();
             reader.onloadend = function(e){  
@@ -137,7 +174,7 @@ function checkDate() {
         var startDate = new Date(entries[i].textContent + 'EST');
         if (startDate.getDate() < today.getDate()) {
             var entry = entries[i];  
-            entry.style.color = "red";
+            //entry.style.color = "red";
             entry.style.fontWeight = "bold";
         }
         else if (startDate.getDate() === today.getDate()) {
@@ -157,5 +194,4 @@ function eraseRow() {
     }
     updateTable();
 }   
-var date = setInterval(checkDate, 9000);
-var removal = setInterval(eraseRow, 9000);
+var removal = setInterval(eraseRow, 2000);

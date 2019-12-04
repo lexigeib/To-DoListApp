@@ -29,16 +29,16 @@
             <input id="color" type="color"></li></div><br><br><br>
             <div class="navOption"><li>
                 Delete all Tasks:<br>
-                <button id="deleteButton">Delete</button>
+                <button id="deleteButton" onclick="reset(); closeNav();">Delete</button>
             </li></div><br><br><br>
             <div class="navOption"><li>Add a Category:<br>
-                <button onclick="addCategory(document.getElementById('categoryAdd').value)" id="categoryButton">
+                <button onclick="addCategory(document.getElementById('categoryAdd').value); closeNav();" id="categoryButton">
                 Add</button>
                 <input type="text" id="categoryAdd">
             </li></div><br><br><br>
             <div class="navOption"><li>
                 Return to Default Categories:<br>
-                <button id="defaultButton">Default</button>
+                <button id="defaultButton" onclick="reset(); closeNav();">Default</button>
             </li></div>
             </ul>
         </div>
@@ -82,8 +82,6 @@
             <option value='High'>High</option>
         </select>
         <select id='category'>
-            <option value='Work' selected>Work</option>
-            <option value='Personal'>Personal</option>
         </select>
         <button onclick="appendTable()" id="buttonimg"><img style="height: 30px;width: 30px; margin-bottom: -10px"src="img/angle-right@1x.png"></button>
     </div>

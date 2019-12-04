@@ -10,11 +10,12 @@ function closeNav() {
 }
 document.addEventListener('deviceready', onDeviceReady, false);   
 function onDeviceReady(){
+    document.getElementById('clicker').addEventListener('click', getImage, false);
     var size =0;
     var type = LocalFileSystem.PERSISTENT;  
     window.requestFileSystem(type, size, fileSuccess, errorCall);
         function fileSuccess(fs){
-            fs.root.getFile('t2.txt', {create: true, exclusive: false}, function(fileEntry){
+            fs.root.getFile('t3.txt', {create: true, exclusive: false}, function(fileEntry){
             if (!fileEntry.isFile)
                 writeFile(fileEntry, null);
             }, errorCall);
@@ -26,11 +27,34 @@ function onDeviceReady(){
 function errorCall(error){
     alert("Error Code: "+ error.code + error);
 }  
+function getImage(){
+    let options = {
+        quality : 20,
+        allowEdit : false,
+        destinationType : Camera.DestinationType.FILE_URI,
+        sourceType : Camera.MediaType.PICTURE,
+        encodingType : Camera.EncodingType.JPEG,
+        cameraDirection : Camera.Direction.BACK,
+        targetWidth: 300,
+        targetHeight : 400
+    };
+    navigator.camera.getPicture(picSuccess, picError, options);
+}
+function picSuccess(ImageURI) {
+    var msg = document.body;
+    msg.style.backgroundImage = "url('ImageURI')";
+    var smallImage = document.getElementById('cameraImage');
+    smallImage.src = ImageURI;
+}
+function picError(message) {
+    var msg = document.getElementById('msg');
+    msg.textContent = 'Capture error: ' + message;
+    
+}
 function reset(){
     var table = document.getElementById("table-container");
-    while(table.rows.length > 1){
-        table.deleteRow(0);
-    }
+    table.innerHTML="";
+    var size = 0;  
 }      
 function appendTable() {
     var txt = document.getElementById('task').value;
@@ -69,7 +93,7 @@ function appendTable() {
     
     window.requestFileSystem(LocalFileSystem.PERSISTENT, size, successCall, errorCall);
     function successCall(fs){
-        fs.root.getFile('t2.txt',{create:true, exclusive: false}, function(fileEntry){
+        fs.root.getFile('t3.txt',{create:true, exclusive: false}, function(fileEntry){
             fileEntry.createWriter(function(fileWriter){
                 fileWriter.onerror = function(e){
                     alert("write failed: "+ e.toString());
@@ -123,7 +147,7 @@ function updateTable(){
     
     window.requestFileSystem(LocalFileSystem.PERSISTENT, size, successCall, errorCall);
     function successCall(fs){
-        fs.root.getFile('t2.txt',{create:true, exclusive: false}, function(fileEntry){
+        fs.root.getFile('t3.txt',{create:true, exclusive: false}, function(fileEntry){
             fileEntry.createWriter(function(fileWriter){
                 fileWriter.onerror = function(e){
                     alert("write failed: "+ e.toString());
@@ -140,7 +164,7 @@ function tablePaste() {
     window.requestFileSystem(LocalFileSystem.PERSISTENT, size, successCall, errorCall);
     
     function successCall(fs){
-        fs.root.getFile('t2.txt',{create: true, exclusive: false},function(fileEntry){
+        fs.root.getFile('t3.txt',{create: true, exclusive: false},function(fileEntry){
         fileEntry.file(function(file){
             var reader = new FileReader();
             reader.onloadend = function(e){  

@@ -179,7 +179,7 @@ function checkDate() {
         var startDate = new Date(entries[i].textContent + 'EST');
         if (startDate.getDate() < today.getDate()) {
             var entry = entries[i];  
-            entry.style.color = "red";
+            entry.style.backgroundColor = "red";
             entry.style.fontWeight = "bold";
         }
         else if (startDate.getDate() === today.getDate()) {

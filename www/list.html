@@ -13,7 +13,7 @@
     
     <title>TODO</title>
 </head>
-<body id="cameraImage">
+<body>
     <br>
     <div id="nav" class="sidenav">
         <div id="navContent">
@@ -40,10 +40,6 @@
                 Return to Default Categories:<br>
                 <button id="defaultButton" onclick="reset(); closeNav();">Default</button>
             </li></div>
-            <div class="navOption"><li>
-                Return to Default Categories:<br>
-                    <button id="clicker">Snap Pics</button>
-            </li></div>
             </ul>
         </div>
     </div>
@@ -62,7 +58,7 @@
                     Task
                 </div>
             </th>
-            <th class="tg-0pky"><img height="30px" width="30px" src="img/calendar.png"><br></th>
+            <th class="tg-0pky"><img height="30px" width="30px" src="img/calendar.png" onclick="dateSort();"><br></th>
             <th class="tg-0lax">
                 <div style="transform: rotate(-15deg); margin-top: 8px;">
                     Priority

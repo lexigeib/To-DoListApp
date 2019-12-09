@@ -2,20 +2,13 @@ var lowColor = "#54003D";
 var highColor = "#004E29";
 var medColor = "#00074E";
 
-function openNav() {
-    document.getElementById("nav").style.width = "250px";
-}
-function closeNav() {
-    document.getElementById("nav").style.width = "0";
-}
 document.addEventListener('deviceready', onDeviceReady, false);   
 function onDeviceReady(){
-    document.getElementById('clicker').addEventListener('click', getImage, false);
     var size =0;
     var type = LocalFileSystem.PERSISTENT;  
     window.requestFileSystem(type, size, fileSuccess, errorCall);
         function fileSuccess(fs){
-            fs.root.getFile('t3.txt', {create: true, exclusive: false}, function(fileEntry){
+            fs.root.getFile('t5.txt', {create: true, exclusive: false}, function(fileEntry){
             if (!fileEntry.isFile)
                 writeFile(fileEntry, null);
             }, errorCall);
@@ -27,34 +20,21 @@ function onDeviceReady(){
 function errorCall(error){
     alert("Error Code: "+ error.code + error);
 }  
-function getImage(){
-    let options = {
-        quality : 20,
-        allowEdit : false,
-        destinationType : Camera.DestinationType.FILE_URI,
-        sourceType : Camera.MediaType.PICTURE,
-        encodingType : Camera.EncodingType.JPEG,
-        cameraDirection : Camera.Direction.BACK,
-        targetWidth: 300,
-        targetHeight : 400
-    };
-    navigator.camera.getPicture(picSuccess, picError, options);
-}
-function picSuccess(ImageURI) {
-    var msg = document.body;
-    msg.style.backgroundImage = "url('ImageURI')";
-    var smallImage = document.getElementById('cameraImage');
-    smallImage.src = ImageURI;
-}
-function picError(message) {
-    var msg = document.getElementById('msg');
-    msg.textContent = 'Capture error: ' + message;
-    
-}
 function reset(){
     var table = document.getElementById("table-container");
     table.innerHTML="";
-    var size = 0;  
+    var size = 0;
+    window.requestFileSystem(LocalFileSystem.PERSISTENT, size, successCall, errorCall);
+    function successCall(fs){
+        fs.root.getFile('t5.txt',{create:true, exclusive: false}, function(fileEntry){
+            fileEntry.createWriter(function(fileWriter){
+                fileWriter.onerror = function(e){
+                    alert("write failed: "+ e.toString());
+                };
+                fileWriter.truncate(0);
+            }, errorCall);    
+        }, errorCall);
+    };
 }      
 function appendTable() {
     var txt = document.getElementById('task').value;
@@ -93,7 +73,7 @@ function appendTable() {
     
     window.requestFileSystem(LocalFileSystem.PERSISTENT, size, successCall, errorCall);
     function successCall(fs){
-        fs.root.getFile('t3.txt',{create:true, exclusive: false}, function(fileEntry){
+        fs.root.getFile('t5.txt',{create:true, exclusive: false}, function(fileEntry){
             fileEntry.createWriter(function(fileWriter){
                 fileWriter.onerror = function(e){
                     alert("write failed: "+ e.toString());
@@ -105,7 +85,26 @@ function appendTable() {
         document.getElementById('task').value="";
     document.getElementById('date').value="";    
     };
+    dateSort();
 }
+function tablePaste() {
+    
+    var size = 0;    
+    window.requestFileSystem(LocalFileSystem.PERSISTENT, size, successCall, errorCall);
+    
+    function successCall(fs){
+        fs.root.getFile('t5.txt',{create: true, exclusive: false},function(fileEntry){
+        fileEntry.file(function(file){
+            var reader = new FileReader();
+            reader.onloadend = function(e){  
+                var table = document.getElementById('table-container');
+                table.insertAdjacentHTML('beforeend', this.result);
+            };
+            reader.readAsText(file);
+            }, errorCall);    
+        }, errorCall);
+    };
+} 
 function addCategory(x) {
     console.log(x);
     var select = document.getElementById("category");
@@ -147,7 +146,7 @@ function updateTable(){
     
     window.requestFileSystem(LocalFileSystem.PERSISTENT, size, successCall, errorCall);
     function successCall(fs){
-        fs.root.getFile('t3.txt',{create:true, exclusive: false}, function(fileEntry){
+        fs.root.getFile('t5.txt',{create:true, exclusive: false}, function(fileEntry){
             fileEntry.createWriter(function(fileWriter){
                 fileWriter.onerror = function(e){
                     alert("write failed: "+ e.toString());
@@ -158,24 +157,6 @@ function updateTable(){
         }, errorCall);  
     };
 }
-function tablePaste() {
-    
-    var size = 0;    
-    window.requestFileSystem(LocalFileSystem.PERSISTENT, size, successCall, errorCall);
-    
-    function successCall(fs){
-        fs.root.getFile('t3.txt',{create: true, exclusive: false},function(fileEntry){
-        fileEntry.file(function(file){
-            var reader = new FileReader();
-            reader.onloadend = function(e){  
-                var table = document.getElementById('table-container');
-                table.insertAdjacentHTML('beforeend', this.result);
-            };
-            reader.readAsText(file);
-            }, errorCall);    
-        }, errorCall);
-    };
-} 
 function colorSelected () {
     var color = document.getElementById("color").value;
     var select = document.getElementById('colorChange').value;
@@ -195,24 +176,48 @@ function colorSelected () {
         style[i].style.backgroundColor = color;
     }
 }
+function openNav() {
+    document.getElementById("nav").style.width = "250px";
+}
+function closeNav() {
+    document.getElementById("nav").style.width = "0";
+}
 function checkDate() {
     console.log('activated datecheck');
     var entries = document.getElementsByClassName('dates');
     var today = new Date();
     for (var i = 0; i < entries.length; i++){
-        console.log(entries[i].textContent);
         var startDate = new Date(entries[i].textContent + 'EST');
-        if (startDate.getDate() < today.getDate()) {
+        if (startDate < today) {
             var entry = entries[i];  
-            //entry.style.color = "red";
+            entry.style.backgroundColor = "red";
             entry.style.fontWeight = "bold";
         }
-        else if (startDate.getDate() === today.getDate()) {
+        else if (startDate === today) {
             var entry = entries[i];  
             entry.style.fontWeight = "bold";
         } 
     };
 }
+function dateSort() {
+    console.log('sorting tables')
+    var entries = document.getElementsByClassName('dates');
+    var table = document.getElementById('table-container');
+    var row = table.rows;
+    var end;
+    for (var i = 0; i < row.length; i++){
+        for (j = 0, end = row.length - 1; j < end; j++ ){
+            var firstDate = new Date(entries[j].textContent + 'EST');
+            var secondDate = new Date(entries[j+1].textContent + 'EST');
+            if (firstDate > secondDate){
+                row[j].parentNode.insertBefore(row[j + 1], row[j]);
+            };
+        };
+    };
+    updateTable();
+}
+
+
 function eraseRow() {
     console.log('checking rows');
     var table = document.getElementById('table-container');
